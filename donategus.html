@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - GUS56</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="donategus.css">
+</head>
+<body>
+
+    <div class="bg-animated"></div>
+
+    <main class="app-container">
+        <header class="profile-header">
+            <div class="avatar">G</div>
+            <h1 class="name">GUS56</h1>
+            <p class="bio">สนับสนุนค่าเทอมผมหน่อยนะครับ 🙏</p>
+        </header>
+
+        <section class="payment-section">
+            <h2 class="section-title">สแกนจ่าย</h2>
+            
+            <div class="input-group">
+                <span class="currency">฿</span>
+                <input type="number" id="amount" placeholder="ระบุยอดเงิน" min="1">
+            </div>
+            
+
+            <div class="qr-wrapper" id="qrWrapper">
+                <div class="qr-card">
+                    <img src="https://promptpay.io/0801138627.png" id="qrImage" alt="PromptPay QR">
+                </div>
+                <p class="qr-status" id="qrStatus">สแกนเพื่อโอนเงินแบบไม่ระบุยอด</p>
+            </div>
+            <button class="btn-save-qr" onclick="downloadQR('qrImage', 'PromptPay')">
+                    💾 บันทึกรูป QR
+                </button>
+            </div>
+        </section>
+
+        <section class="crypto-section">
+            <h2 class="section-title">โดเนทด้วย Crypto (OKX)</h2>
+            
+            <div class="crypto-tabs">
+                <button class="tab-btn active" onclick="switchCrypto('USDT')">USDT</button>
+                <button class="tab-btn" onclick="switchCrypto('BTC')">BTC</button>
+                <button class="tab-btn" onclick="switchCrypto('ETH')">ETH</button>
+                <button class="tab-btn" onclick="switchCrypto('SOL')">SOL</button>
+            </div>
+
+            <div class="crypto-content">
+                <div class="crypto-qr-box">
+                    <img src="usdt.jpg" id="cryptoImg" alt="Crypto QR">
+                </div>
+                <button class="btn-save-qr" onclick="downloadQR('cryptoImg', currentCrypto)" style="margin-bottom: 12px;">
+                    💾 บันทึกรูป QR
+                </button>
+                <div class="crypto-warning" id="cryptoWarning">
+                    <strong>⚠️ โอนเฉพาะเหรียญ USDT ผ่านเครือข่าย X Layer เท่านั้น</strong>
+                </div>
+
+                <div class="crypto-address-box">
+                    <span class="crypto-address" id="cryptoAddress">Txxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+                    <button class="btn-copy-crypto" onclick="copyCrypto()">คัดลอก</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="account-section">
+            <h2 class="section-title">โอนผ่านบัญชี / วอเลท</h2>
+            
+            <div class="acc-card card-tmw" onclick="copyData('0801138627', 'คัดลอกเบอร์ TrueMoney แล้ว')">
+                <div class="acc-info">
+                    <span class="bank-name tmw-text">TrueMoney Wallet</span>
+                    <span class="acc-no">080-113-8627</span>
+                </div>
+                <div class="copy-badge">คัดลอก</div>
+            </div>
+
+            <div class="acc-card card-kbank" onclick="copyData('1338992625', 'คัดลอกบัญชีกสิกรไทยแล้ว')">
+                <div class="acc-info">
+                    <span class="bank-name kbank-text">กสิกรไทย (K-Bank)</span>
+                    <span class="acc-no">133-899-2625</span>
+                </div>
+                <div class="copy-badge">คัดลอก</div>
+            </div>
+
+            <div class="acc-card card-bbl" onclick="copyData('7480350607', 'คัดลอกบัญชีกรุงเทพแล้ว')">
+                <div class="acc-info">
+                    <span class="bank-name bbl-text">กรุงเทพ (BBL)</span>
+                    <span class="acc-no">748-035-0607</span>
+                </div>
+                <div class="copy-badge">คัดลอก</div>
+            </div>
+
+            <div class="acc-card card-scb" onclick="copyData('5014619192', 'คัดลอกบัญชี SCB แล้ว')">
+                <div class="acc-info">
+                    <span class="bank-name scb-text">ไทยพาณิชย์ (SCB)</span>
+                    <span class="acc-no">501-461-9192</span>
+                </div>
+                <div class="copy-badge">คัดลอก</div>
+            </div>
+        </section>
+    </main>
+
+    <div class="toast" id="toast">แจ้งเตือน</div>
+
+    <script src="donategus.js"></script>
+</body>
+</html>
