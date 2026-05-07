@@ -1,102 +1,67 @@
-const tabButtons = document.querySelectorAll('.tab-button');
-const panels = document.querySelectorAll('.panel');
+let currentAmount = 60; 
+const promptpayID = "0801138627";
 
-tabButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        tabButtons.forEach(t => t.classList.remove('active'));
-        panels.forEach(p => p.classList.remove('active'));
-        
-        btn.classList.add('active');
-        const targetId = btn.getAttribute('data-target');
-        document.getElementById(targetId).classList.add('active');
-    });
+function selectAmount(amount, btnElement) {
+    document.getElementById('customInputWrapper').classList.remove('show');
+    document.getElementById('customAmount').value = '';
+    document.querySelectorAll('.amount-card').forEach(btn => btn.classList.remove('active'));
+    btnElement.classList.add('active');
+    currentAmount = amount;
+    updateMainButton();
+}
+
+function toggleCustomInput(btnElement) {
+    document.querySelectorAll('.amount-card').forEach(btn => btn.classList.remove('active'));
+    btnElement.classList.add('active');
+    const inputWrapper = document.getElementById('customInputWrapper');
+    inputWrapper.classList.add('show');
+    const inputField = document.getElementById('customAmount');
+    inputField.focus();
+    currentAmount = inputField.value ? parseInt(inputField.value) : 0;
+    updateMainButton();
+}
+
+function updateCustomAmount(val) {
+    currentAmount = val ? parseInt(val) : 0;
+    updateMainButton();
+}
+
+function updateMainButton() {
+    const btn = document.getElementById('supportBtn');
+    if (currentAmount > 0) {
+        btn.textContent = `สนับสนุน ฿${currentAmount.toLocaleString('th-TH')}`;
+        btn.disabled = false;
+        btn.style.opacity = '1';
+    } else {
+        btn.textContent = `ระบุจำนวนเงิน`;
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+    }
+}
+
+function openPaymentModal() {
+    if (currentAmount <= 0) return;
+    document.getElementById('modalTotalAmount').textContent = `฿${currentAmount.toLocaleString('th-TH')}`;
+    const qrImg = document.getElementById('promptpayQR');
+    qrImg.src = `https://promptpay.io/${promptpayID}/${currentAmount}.png`;
+    document.getElementById('paymentModal').classList.add('open');
+    document.body.style.overflow = 'hidden'; 
+}
+
+function closePaymentModal() {
+    document.getElementById('paymentModal').classList.remove('open');
+    document.body.style.overflow = ''; 
+}
+
+document.getElementById('paymentModal').addEventListener('click', function(e) {
+    if (e.target === this) closePaymentModal();
 });
 
-const purposeData = {
-    'boba': { amount: 60, msg: 'สดชื่นเลย! ขอบคุณสำหรับชานมไข่มุกนะครับ 🥰' },
-    'mookata': { amount: 300, msg: 'อิ่มไปอีกหลายวัน! ขอบคุณสำหรับหมูกระทะเยียวยาจิตใจครับ 🥓' },
-    'book': { amount: 500, msg: 'ความรู้แน่นๆ! ขอบคุณที่ช่วยสมทบทุนค่าหนังสือเรียนครับ 📖' },
-    'custom': { amount: 0, msg: 'ขอบคุณสำหรับทุกการสนับสนุนที่ให้ผมเดินหน้าต่อนะครับ 🚀' }
-};
-
-function selectPurpose(type, cardElement) {
-    document.querySelectorAll('.purpose-card').forEach(card => card.classList.remove('active'));
-    cardElement.classList.add('active');
-
-    const data = purposeData[type];
-    document.getElementById('purposeMessage').innerHTML = data.msg;
-
-    const qrImg = document.getElementById('dynamicQR');
-    const amountText = document.getElementById('qrAmountText');
-    
-    if (data.amount > 0) {
-        qrImg.src = `https://promptpay.io/0801138627/${data.amount}.png`;
-        amountText.textContent = `ยอดโอน: ฿${data.amount}`;
-    } else {
-        qrImg.src = `https://promptpay.io/0801138627.png`;
-        amountText.textContent = `ระบุยอดเงินในแอป`;
-    }
-
-    document.getElementById('bankAppLinks').classList.remove('show');
-
-    const resultBox = document.getElementById('purposeResult');
-    resultBox.classList.remove('show');
-    
-    setTimeout(() => {
-        resultBox.classList.add('show');
-    }, 10);
-    
-    setTimeout(() => {
-        resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 200);
-}
-
-function copyAndShowApps() {
-    copyData('0801138627', 'คัดลอกเลขแล้ว! เปิดแอปด้านล่างได้เลย 👇');
-    const appLinks = document.getElementById('bankAppLinks');
-    appLinks.classList.add('show');
-}
-
-const cryptoData = {
-    'USDT': {
-        img: 'usdt.jpg',
-        address: '0xd843581d4f8202764a9c0c60f0271eb8e2c25bd8',
-        warning: '⚠️ โอนเฉพาะเหรียญ USDT ผ่านเครือข่าย TRC20 เท่านั้น'
-    },
-    'BTC': {
-        img: 'btc.jpg',
-        address: 'bc1peg3j4dvwq2sq3u2upak0vsspc0mnxc8cmhcjy0v2at8g8k34ps7qeyw863',
-        warning: '⚠️ โอนเฉพาะเหรียญ BTC ผ่านเครือข่าย Bitcoin เท่านั้น'
-    },
-    'ETH': {
-        img: 'eth.jpg',
-        address: '0xd843581d4f8202764a9c0c60f0271eb8e2c25bd8',
-        warning: '⚠️ โอนเฉพาะเหรียญ ETH ผ่านเครือข่าย ERC20 เท่านั้น'
-    },
-    'SOL': {
-        img: 'sol.jpg',
-        address: 'cbkPKZ4QN6P5kHk8766yrUUusHcMZcesqHivZWmFK68',
-        warning: '⚠️ โอนเฉพาะเหรียญ SOL ผ่านเครือข่าย Solana เท่านั้น'
-    }
-};
-
-let currentCrypto = 'USDT';
-
-function switchCrypto(coin, btnElement) {
-    currentCrypto = coin;
-    const data = cryptoData[coin];
-
-    document.getElementById('cryptoImg').src = data.img;
-    document.getElementById('cryptoWarning').innerHTML = `<strong>${data.warning}</strong>`;
-    document.getElementById('cryptoAddress').textContent = data.address;
-
-    document.querySelectorAll('.crypto-tab').forEach(tab => tab.classList.remove('active'));
-    if(btnElement) btnElement.classList.add('active');
-}
-
-function copyCrypto() {
-    const address = cryptoData[currentCrypto].address;
-    copyData(address, `คัดลอก Address ${currentCrypto} แล้ว`);
+function switchPaymentTab(tabId, btnElement) {
+    document.querySelectorAll('.m-tab').forEach(btn => btn.classList.remove('active'));
+    btnElement.classList.add('active');
+    document.querySelectorAll('.payment-view').forEach(view => view.classList.remove('active'));
+    document.getElementById(`view-${tabId}`).classList.add('active');
 }
 
 let toastTimer;
@@ -145,21 +110,18 @@ async function downloadQR(imgElementId, fileNamePrefix) {
         const response = await fetch(imgSrc);
         const blob = await response.blob();
         const blobUrl = URL.createObjectURL(blob);
-
         const link = document.createElement('a');
         link.href = blobUrl;
         const timeStamp = new Date().getTime();
-        link.download = `Donate_${fileNamePrefix}_${timeStamp}.png`;
+        link.download = `Donate_${fileNamePrefix}_${currentAmount}THB_${timeStamp}.png`;
         
         document.body.appendChild(link);
         link.click();
-        document.body.removeChild(link);
-
+        document.body.removeChild(link); 
         URL.revokeObjectURL(blobUrl);
-        showToast(`บันทึก QR ${fileNamePrefix} ลงเครื่องแล้ว!`);
+        showToast(`บันทึก QR Code ลงเครื่องแล้ว!`);
         
     } catch (error) {
-        console.error(error);
         const fallbackLink = document.createElement('a');
         fallbackLink.href = imgSrc;
         fallbackLink.target = '_blank';
@@ -169,6 +131,6 @@ async function downloadQR(imgElementId, fileNamePrefix) {
         fallbackLink.click();
         document.body.removeChild(fallbackLink);
         
-        showToast("เปิดรูปแล้ว กดค้างหรือคลิกขวาเพื่อบันทึก");
+        showToast("เปิดรูปแล้ว กดค้าง/คลิกขวาเพื่อบันทึก");
     }
 }
