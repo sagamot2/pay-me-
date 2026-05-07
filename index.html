@@ -3,194 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="หน้าบริจาคสำหรับ GUS56 ด้วย PromptPay, Crypto และบัญชีธนาคาร">
+    <meta name="description" content="สนับสนุนการเรียนและการทำโปรเจกต์ของ GUS56">
     <title>Support - GUS56</title>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="donategus.css">
 </head>
 <body>
-    <div class="page-bg"></div>
-    <div class="page-shell">
-        <header class="hero-card">
-            <div class="hero-badge">G</div>
-            <div class="hero-title">
-                <h1>สนับสนุนการเรียน</h1>
-                <p>ทุกยอดบริจาคช่วยเป็นค่าเทอม ค่าหนังสือ และขับเคลื่อนชีวิตนักศึกษาให้เดินหน้าต่อได้ครับ</p>
+    <div class="page-bg">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <main class="container">
+        <header class="profile-header">
+            <div class="avatar-glow">
+                <div class="avatar">
+                    <img src="https://ui-avatars.com/api/?name=Gus+56&background=00f3ff&color=000&size=120&bold=true" alt="GUS56">
+                </div>
             </div>
-            <div class="hero-actions">
-                <span class="hero-pill">✨ ปลอดภัย</span>
-                <span class="hero-pill">⚡ ง่ายดาย</span>
-                <span class="hero-pill">🚀 พร้อมใช้งาน</span>
-            </div>
+            <h1>สนับสนุน GUS56</h1>
+            <p class="bio">ทุกยอดการสนับสนุนจะนำไปใช้เป็นค่าเทอม ค่าหนังสือ และขับเคลื่อนโปรเจกต์ต่างๆ ให้เดินหน้าต่อไปได้ครับ 🚀</p>
         </header>
 
-        <nav class="main-tabs" aria-label="เลือกวิธีบริจาค">
-            <button class="tab-button active" data-target="promptpay">PromptPay</button>
-            <button class="tab-button" data-target="crypto">Crypto</button>
-            <button class="tab-button" data-target="bank">บัญชี / วอเลท</button>
-        </nav>
-
-        <section class="panel active" id="promptpay">
-            <div class="panel-header" style="margin-bottom: 20px;">
-                <div>
-                    <p class="panel-label">PROMPTPAY</p>
-                    <h2>เลือกสิ่งที่คุณอยากสนับสนุน</h2>
-                </div>
-            </div>
-
-            <div class="purpose-grid">
-                <div class="purpose-card" onclick="selectPurpose('boba', this)">
-                    <span class="purpose-emoji">🧋</span>
-                    <div class="purpose-info">
-                        <h3>ชานมไข่มุก</h3>
-                        <p>฿60</p>
+        <section class="donation-step glass-panel">
+            <h2 class="step-title">1. เลือกระดับการสนับสนุน</h2>
+            <div class="amount-grid">
+                <button class="amount-card active" data-amount="60" onclick="selectAmount(60, this)">
+                    <span class="emoji">🧋</span>
+                    <div class="info">
+                        <span class="title">ชานมไข่มุก</span>
+                        <span class="price">฿60</span>
                     </div>
-                </div>
-                <div class="purpose-card" onclick="selectPurpose('mookata', this)">
-                    <span class="purpose-emoji">🍜</span>
-                    <div class="purpose-info">
-                        <h3>หมูกระทะ</h3>
-                        <p>฿300</p>
+                </button>
+                <button class="amount-card" data-amount="300" onclick="selectAmount(300, this)">
+                    <span class="emoji">🍜</span>
+                    <div class="info">
+                        <span class="title">หมูกระทะ</span>
+                        <span class="price">฿300</span>
                     </div>
-                </div>
-                <div class="purpose-card" onclick="selectPurpose('book', this)">
-                    <span class="purpose-emoji">📚</span>
-                    <div class="purpose-info">
-                        <h3>ค่าหนังสือ</h3>
-                        <p>฿500</p>
+                </button>
+                <button class="amount-card" data-amount="500" onclick="selectAmount(500, this)">
+                    <span class="emoji">📚</span>
+                    <div class="info">
+                        <span class="title">ค่าหนังสือ</span>
+                        <span class="price">฿500</span>
                     </div>
-                </div>
-                <div class="purpose-card" onclick="selectPurpose('custom', this)">
-                    <span class="purpose-emoji">🚀</span>
-                    <div class="purpose-info">
-                        <h3>ตามศรัทธา</h3>
-                        <p>Custom</p>
+                </button>
+                <button class="amount-card" id="customBtn" onclick="toggleCustomInput(this)">
+                    <span class="emoji">💡</span>
+                    <div class="info">
+                        <span class="title">ตามศรัทธา</span>
+                        <span class="price">ระบุเอง</span>
                     </div>
-                </div>
-            </div>
-
-            <div id="purposeResult" class="purpose-result">
-                <div class="purpose-divider"></div>
-                <p id="purposeMessage" class="purpose-message">ขอบคุณครับ!</p>
-
-                <div class="payment-methods-hybrid">
-                    <div class="hybrid-card">
-                        <p class="hybrid-title">🎯 สแกน / บันทึก QR</p>
-                        <div class="qr-display">
-                            <img id="dynamicQR" src="https://promptpay.io/0801138627.png" alt="QR Code">
-                        </div>
-                        <p class="dynamic-amount-text" id="qrAmountText">ยอดโอน: ฿0</p>
-                        <button class="btn btn-secondary btn-sm" onclick="downloadQR('dynamicQR', 'PromptPay')">
-                            💾 บันทึกรูป QR
-                        </button>
-                    </div>
-
-                    <div class="hybrid-card">
-                        <p class="hybrid-title">📱 คัดลอก & เปิดแอป</p>
-                        <div class="account-display-box" onclick="copyAndShowApps()">
-                            <div class="acc-details">
-                                <p class="acc-label">PromptPay Number</p>
-                                <h3 class="acc-number">080-113-8627</h3>
-                            </div>
-                            <div class="acc-copy-btn">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                                <span>คัดลอก</span>
-                            </div>
-                        </div>
-
-                        <div class="bank-app-links" id="bankAppLinks">
-                            <p class="small-text">👇 คัดลอกแล้ว เปิดแอปเลย 👇</p>
-                            <div class="app-btn-group">
-                                <a href="kplus://" class="app-btn kplus">K-PLUS</a>
-                                <a href="scbeasy://" class="app-btn scb">SCB</a>
-                                <a href="truemoney://" class="app-btn tmw">Wallet</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="panel" id="crypto">
-            <div class="panel-header">
-                <div>
-                    <p class="panel-label">CRYPTO</p>
-                    <h2>เลือกเหรียญที่ต้องการ</h2>
-                </div>
-            </div>
-
-            <div class="crypto-tabs">
-                <button class="crypto-tab active" onclick="switchCrypto('USDT', this)">USDT</button>
-                <button class="crypto-tab" onclick="switchCrypto('BTC', this)">BTC</button>
-                <button class="crypto-tab" onclick="switchCrypto('ETH', this)">ETH</button>
-                <button class="crypto-tab" onclick="switchCrypto('SOL', this)">SOL</button>
-            </div>
-
-            <div class="qr-wrapper">
-                <div class="qr-frame">
-                    <img id="cryptoImg" src="usdt.jpg" alt="Crypto QR Code" style="background:#ffffff; display:block; width:100%; height:100%; object-fit:contain; border-radius:8px;">
-                </div>
-                <p class="crypto-warning" id="cryptoWarning">⚠️ โอนเฉพาะเหรียญ USDT ผ่านเครือข่าย TRC20 เท่านั้น</p>
-            </div>
-
-            <div class="crypto-address-row">
-                <code id="cryptoAddress">0xd843581d4f8202764a9c0c60f0271eb8e2c25bd8</code>
-                <button class="btn-copy-small" onclick="copyCrypto()">คัดลอก</button>
-            </div>
-            
-            <div class="panel-actions" style="margin-top: 20px; grid-template-columns: 1fr;">
-                <button class="btn btn-primary" onclick="downloadQR('cryptoImg', currentCrypto)">
-                    💾 บันทึกรูป QR Code
                 </button>
             </div>
-        </section>
 
-        <section class="panel" id="bank">
-            <div class="panel-header">
-                <div>
-                    <p class="panel-label">บัญชีธนาคาร</p>
-                    <h2>โอนเข้าบัญชีที่สะดวก</h2>
+            <div class="custom-input-wrapper" id="customInputWrapper">
+                <span class="currency-symbol">฿</span>
+                <input type="number" id="customAmount" placeholder="ระบุจำนวนเงิน" min="1" oninput="updateCustomAmount(this.value)">
+            </div>
+
+            <div class="message-wrapper">
+                <label for="backerMessage" class="step-title" style="margin-top: 24px; display: block;">ข้อความถึงกัส (ตัวเลือก)</label>
+                <textarea id="backerMessage" rows="2" placeholder="พิมพ์ข้อความให้กำลังใจ..."></textarea>
+            </div>
+
+            <button class="btn-main glow-btn" id="supportBtn" onclick="openPaymentModal()">
+                สนับสนุน ฿60
+            </button>
+        </section>
+    </main>
+
+    <div class="modal-overlay" id="paymentModal">
+        <div class="modal-content glass-panel">
+            <button class="modal-close" onclick="closePaymentModal()">✕</button>
+            
+            <div class="modal-header">
+                <h2>เลือกช่องทางชำระเงิน</h2>
+                <p>ยอดชำระ: <strong id="modalTotalAmount">฿60</strong></p>
+            </div>
+
+            <div class="modal-tabs">
+                <button class="m-tab active" onclick="switchPaymentTab('promptpay', this)">PromptPay</button>
+                <button class="m-tab" onclick="switchPaymentTab('bank', this)">บัญชีธนาคาร</button>
+            </div>
+
+            <div class="payment-view active" id="view-promptpay">
+                <div class="qr-box">
+                    <img id="promptpayQR" src="" alt="PromptPay QR">
+                </div>
+                <p class="qr-note">สแกนผ่านแอปธนาคารได้ทุกแอป</p>
+                <div class="modal-actions">
+                    <button class="btn-outline" onclick="copyData('0801138627', 'คัดลอกเบอร์ PromptPay แล้ว')">
+                        📋 คัดลอกเบอร์
+                    </button>
+                    <button class="btn-dark" onclick="downloadQR('promptpayQR', 'GUS56')">
+                        💾 บันทึกรูป QR
+                    </button>
                 </div>
             </div>
 
-            <div class="account-grid">
-                <div class="account-card card-tmw" onclick="copyData('0801138627','คัดลอกเบอร์ TrueMoney แล้ว')">
-                    <div class="account-info">
-                        <h3 style="color: var(--tmw);">TrueMoney Wallet</h3>
-                        <p>080-113-8627</p>
+            <div class="payment-view" id="view-bank">
+                <div class="bank-list">
+                    <div class="bank-item" onclick="copyData('1338992625', 'คัดลอกบัญชีกสิกรไทยแล้ว')">
+                        <div class="bank-info">
+                            <div class="bank-logo" style="background:#00c853;">K</div>
+                            <div>
+                                <p class="bank-name">กสิกรไทย (K-Bank)</p>
+                                <p class="bank-acc">133-899-2625</p>
+                            </div>
+                        </div>
+                        <span class="copy-text">คัดลอก</span>
                     </div>
-                    <span class="account-copy-badge">คัดลอก</span>
-                </div>
-                <div class="account-card card-kbank" onclick="copyData('1338992625','คัดลอกบัญชีกสิกรไทยแล้ว')">
-                    <div class="account-info">
-                        <h3 style="color: var(--kbank);">กสิกรไทย (K-Bank)</h3>
-                        <p>133-899-2625</p>
+
+                    <div class="bank-item" onclick="copyData('7480350607', 'คัดลอกบัญชีกรุงเทพแล้ว')">
+                        <div class="bank-info">
+                            <div class="bank-logo" style="background:#2962ff;">B</div>
+                            <div>
+                                <p class="bank-name">กรุงเทพ (BBL)</p>
+                                <p class="bank-acc">748-035-0607</p>
+                            </div>
+                        </div>
+                        <span class="copy-text">คัดลอก</span>
                     </div>
-                    <span class="account-copy-badge">คัดลอก</span>
-                </div>
-                <div class="account-card card-bbl" onclick="copyData('7480350607','คัดลอกบัญชีกรุงเทพแล้ว')">
-                    <div class="account-info">
-                        <h3 style="color: var(--bbl);">กรุงเทพ (BBL)</h3>
-                        <p>748-035-0607</p>
+
+                    <div class="bank-item" onclick="copyData('5014619192', 'คัดลอกบัญชีไทยพาณิชย์แล้ว')">
+                        <div class="bank-info">
+                            <div class="bank-logo" style="background:#7c4dff;">S</div>
+                            <div>
+                                <p class="bank-name">ไทยพาณิชย์ (SCB)</p>
+                                <p class="bank-acc">501-461-9192</p>
+                            </div>
+                        </div>
+                        <span class="copy-text">คัดลอก</span>
                     </div>
-                    <span class="account-copy-badge">คัดลอก</span>
-                </div>
-                <div class="account-card card-scb" onclick="copyData('5014619192','คัดลอกบัญชี SCB แล้ว')">
-                    <div class="account-info">
-                        <h3 style="color: var(--scb);">ไทยพาณิชย์ (SCB)</h3>
-                        <p>501-461-9192</p>
+
+                    <div class="bank-item" onclick="copyData('0801138627', 'คัดลอกเบอร์ TrueMoney แล้ว')">
+                        <div class="bank-info">
+                            <div class="bank-logo" style="background:#ff8c00;">T</div>
+                            <div>
+                                <p class="bank-name">TrueMoney</p>
+                                <p class="bank-acc">080-113-8627</p>
+                            </div>
+                        </div>
+                        <span class="copy-text">คัดลอก</span>
                     </div>
-                    <span class="account-copy-badge">คัดลอก</span>
                 </div>
             </div>
-        </section>
-
-        <footer class="footer-note">
-            <p>ขอบคุณทุกการสนับสนุนครับ ❤️</p>
-        </footer>
+            
+            <p class="thank-you-text" id="finalMessage">ขอบคุณสำหรับการสนับสนุนครับ ❤️</p>
+        </div>
     </div>
 
     <div class="toast" id="toast">แจ้งเตือน</div>
+
     <script src="donategus.js"></script>
 </body>
 </html>
